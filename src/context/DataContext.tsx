@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { Doctor, Patient, Appointment, Prescription, Medicine, Invoice, InvoiceItem } from "@/types/pharmacy";
+import { Doctor, Patient, Prescription, Medicine, Invoice, InvoiceItem } from "@/types/pharmacy";
 import { db } from "@/lib/firebase";
 import { 
   collection, 
@@ -14,7 +14,7 @@ import {
   setDoc,
   getDoc
 } from "firebase/firestore";
-import { mockPatients, mockAppointments, mockPrescriptions, mockMedicines, mockInvoices } from "@/data/mockData";
+import { mockPatients, mockPrescriptions, mockMedicines, mockInvoices } from "@/data/mockData";
 
 interface DataContextType {
   clinicName: string;
@@ -24,10 +24,7 @@ interface DataContextType {
 updatePatient: (id: string, p: Partial<Patient>) => Promise<void>;
   deletePatient: (id: string) => Promise<void>;
 
-  appointments: Appointment[];
-  addAppointment: (a: Omit<Appointment, "id">) => Promise<void>;
-  updateAppointment: (id: string, a: Partial<Appointment>) => Promise<void>;
-  deleteAppointment: (id: string) => Promise<void>;
+
 
   prescriptions: Prescription[];
   addPrescription: (p: Omit<Prescription, "id">) => Promise<void>;
@@ -63,7 +60,6 @@ export const useData = () => {
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -80,7 +76,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     let syncedCount = 0;
-    const totalCollections = 6;
+    const totalCollections = 5;
     
     // Helper to track first sync for speed
     const onFirstSync = () => {
@@ -95,10 +91,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       onFirstSync();
     });
 
-    const unsubAppointments = onSnapshot(query(collection(db, "appointments")), (snapshot) => {
-      setAppointments(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as Appointment)));
-      onFirstSync();
-    });
+
 
     const unsubPrescriptions = onSnapshot(query(collection(db, "prescriptions")), (snapshot) => {
       setPrescriptions(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as Prescription)));
@@ -122,7 +115,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
     return () => {
       unsubPatients();
-      unsubAppointments();
       unsubPrescriptions();
       unsubMedicines();
       unsubInvoices();
@@ -226,10 +218,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     updatePatient: async (id, p) => { await updateDoc(doc(db, "patients", id), p); },
     deletePatient: async (id) => { await deleteDoc(doc(db, "patients", id)); },
 
-    appointments,
-    addAppointment: async (a) => { await addDoc(collection(db, "appointments"), a); },
-    updateAppointment: async (id, a) => { await updateDoc(doc(db, "appointments", id), a); },
-    deleteAppointment: async (id) => { await deleteDoc(doc(db, "appointments", id)); },
+
 
     prescriptions,
         addPrescription: async (p) => {
@@ -269,7 +258,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
     loading,
     clearAllData: async () => {
-      const collections = ["patients", "appointments", "prescriptions", "medicines", "invoices", "doctors"];
+      const collections = ["patients", "prescriptions", "medicines", "invoices", "doctors"];
       for (const coll of collections) {
         const snap = await getDocs(collection(db, coll));
         for (const d of snap.docs) {

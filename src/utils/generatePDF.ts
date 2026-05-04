@@ -249,7 +249,6 @@ export const generateSystemGuidePDF = () => {
     "Fig 16.1 Patient Registration Sequence Diagram",
     "Fig 16.2 Prescription Dispensing Sequence Diagram",
     "Fig 16.3 Invoice Generation Sequence Diagram",
-    "Fig 16.4 Appointment Scheduling Sequence Diagram",
   ];
   figuresList.forEach((fig) => {
     doc.setFontSize(9);
@@ -273,7 +272,6 @@ export const generateSystemGuidePDF = () => {
     "Table 7.1  Technology Stack Details",
     "Table 9.1  Entity Relationship Summary",
     "Table 9.2  Data Dictionary - Patient",
-    "Table 9.3  Data Dictionary - Appointment",
     "Table 9.4  Data Dictionary - Prescription",
     "Table 9.5  Data Dictionary - Medicine",
     "Table 9.6  Data Dictionary - Invoice",
@@ -416,9 +414,9 @@ export const generateSystemGuidePDF = () => {
   addPage();
   sectionTitle("3. Abstract");
   body("PharmaCare is a comprehensive, web-based Pharmacy Management System designed and developed by NIKHIL SHARMA. The system provides an integrated digital platform for automating and streamlining the complete workflow of a pharmacy or healthcare clinic, replacing traditional manual record-keeping with an efficient, modern, and error-free digital solution.");
-  body("The application encompasses six core functional modules: Patient Records Management, Appointment Scheduling, Digital Prescription Management, Medicine Inventory Control, Billing and Invoice Generation, and Reports and Analytics. Each module supports full Create, Read, Update, and Delete (CRUD) operations with real-time data validation and persistent storage.");
-  body("The system is built using a modern technology stack comprising React 18 for the user interface, TypeScript for type-safe development, Tailwind CSS for responsive styling, and Shadcn/UI for accessible component design. The application implements centralized state management using React Context API with localStorage persistence, enabling seamless offline capability. Interactive data visualization is achieved through the Recharts library, providing revenue trend charts and status overview analytics.");
-  body("Key features include automated low-stock alerts for medicines below threshold levels, dynamic invoice generation with line-item calculations, patient search and filtering, appointment status tracking (scheduled, completed, cancelled), prescription dispensing workflow, and a complete PDF documentation export system using jsPDF.");
+  body("The application encompasses five core functional modules: Patient Records Management, Digital Prescription Management, Medicine Inventory Control, Billing and Invoice Generation, and Reports and Analytics. Each module supports full Create, Read, Update, and Delete (CRUD) operations with real-time data validation and persistent storage.");
+  body("The system is built using a modern technology stack comprising React 18 for the user interface, TypeScript for type-safe development, Tailwind CSS for responsive styling, and Shadcn/UI for accessible component design. The application implements centralized state management using React Context API with real-time Firebase Firestore database synchronization for persistent, cross-platform data availability.");
+  body("Key features include automated low-stock alerts for medicines below threshold levels, dynamic invoice generation with real-time medicine inventory search, automatic price-quantity calculation, patient search and filtering, prescription dispensing workflow, and a complete PDF documentation export system using jsPDF.");
   body("The project demonstrates proficiency in full-stack web development principles, component-based architecture, state management patterns, responsive UI/UX design, and software engineering best practices. The modular architecture ensures scalability and maintainability, making it suitable for deployment in small to medium-sized pharmacies and healthcare clinics.");
   body("The application was developed following the Agile methodology with iterative development cycles, each focused on delivering a functional module. The development process involved requirements gathering, system design, implementation, testing, and documentation phases. The final deliverable includes a fully functional web application accessible through modern web browsers, along with this comprehensive technical documentation.");
   y += 3;
@@ -431,7 +429,7 @@ export const generateSystemGuidePDF = () => {
   addPage();
   sectionTitle("4. Introduction");
   subtitle("4.1 Background");
-  body("In the contemporary healthcare landscape, efficient management of pharmacy and clinical operations is paramount for delivering quality patient care. Pharmacies handle an enormous volume of daily transactions including patient registrations, appointment scheduling, prescription processing, inventory management, and billing. Traditional manual systems involving paper records, handwritten prescriptions, and physical inventory logs are inherently prone to human errors, time-consuming, and difficult to scale.");
+  body("In the contemporary healthcare landscape, efficient management of pharmacy and clinical operations is paramount for delivering quality patient care. Pharmacies handle an enormous volume of daily transactions including patient registrations, prescription processing, inventory management, and billing. Traditional manual systems involving paper records, handwritten prescriptions, and physical inventory logs are inherently prone to human errors, time-consuming, and difficult to scale.");
   body("The healthcare industry has witnessed a significant digital transformation in recent years, with electronic health records (EHR), telemedicine platforms, and digital pharmacy management systems becoming increasingly prevalent. However, many small to medium-sized pharmacies and clinics still rely on manual processes due to the high cost of commercial software solutions and the complexity of implementation. PharmaCare aims to bridge this gap by providing a free, open-source, and user-friendly pharmacy management solution.");
   body("According to the World Health Organization (WHO), medication errors affect millions of patients globally each year, with pharmacy-related errors accounting for a significant proportion. The implementation of digital pharmacy management systems has been shown to reduce medication errors by up to 50% in clinical studies. This underscores the critical importance of transitioning from manual to digital systems in healthcare settings.");
   body("The Indian pharmaceutical market, valued at approximately $50 billion, comprises over 800,000 retail pharmacy outlets. A vast majority of these pharmacies operate with minimal digital infrastructure, relying on manual registers, handwritten prescriptions, and basic calculators for billing. PharmaCare is designed to serve this underserved market segment by providing an accessible, zero-cost solution that can be deployed with minimal technical expertise.");
@@ -443,7 +441,7 @@ export const generateSystemGuidePDF = () => {
   bullet("Inventory discrepancies resulting in stockouts of essential medicines or wastage of expired stock, leading to financial losses");
   bullet("Manual billing errors and difficulty in tracking payment statuses across hundreds of daily transactions");
   bullet("Absence of analytical insights for informed business decision-making regarding stock purchases and staffing");
-  bullet("No centralized system to manage appointments efficiently, leading to long patient wait times and scheduling conflicts");
+
   bullet("Difficulty in maintaining compliance with pharmaceutical regulations and audit requirements");
   bullet("Lack of data backup mechanisms, putting critical patient information at risk of permanent loss");
 
@@ -454,12 +452,12 @@ export const generateSystemGuidePDF = () => {
   subtitle("4.4 Scope of the Project");
   body("The project scope encompasses the following functional areas:");
   numberedItem("1", "Patient Registration and Records Management with search and CRUD operations");
-  numberedItem("2", "Appointment Scheduling with patient-doctor mapping and status tracking");
-  numberedItem("3", "Digital Prescription Creation with medicine line-item builder and dispensing workflow");
-  numberedItem("4", "Medicine Inventory Management with stock alerts, pricing, and expiry tracking");
-  numberedItem("5", "Invoice Generation with dynamic line items and automatic total calculation");
-  numberedItem("6", "Reports and Analytics with interactive charts (bar charts, pie charts)");
-  numberedItem("7", "PDF Documentation Export for project presentation and academic submission");
+  numberedItem("2", "Digital Prescription Creation with medicine line-item builder and dispensing workflow");
+  numberedItem("3", "Medicine Inventory Management with stock alerts, pricing, and expiry tracking");
+  numberedItem("4", "Invoice Generation with integrated medicine search and automatic calculation");
+  numberedItem("5", "Reports and Analytics with interactive charts (bar charts, pie charts)");
+  numberedItem("6", "PDF Documentation Export for project presentation and academic submission");
+  numberedItem("7", "System Settings with global data reset and branding options");
   numberedItem("8", "Responsive UI design compatible with desktop, tablet, and mobile devices");
 
   subtitle("4.5 Significance of the Project");
@@ -509,7 +507,7 @@ export const generateSystemGuidePDF = () => {
   subtitle("6.1 Primary Objectives");
   bullet("To design and develop a fully functional web-based Pharmacy Management System that automates daily pharmacy and clinic operations, reducing manual effort by an estimated 70% and minimizing human errors in data entry and calculations");
   bullet("To create a centralized digital platform for managing patient records with complete CRUD functionality, replacing paper-based systems and enabling instant search and retrieval of patient information");
-  bullet("To implement an appointment scheduling module that improves patient flow management and reduces average wait times through organized scheduling with doctor assignment and time slot management");
+
   bullet("To build a digital prescription management system that eliminates medication errors caused by handwriting issues and provides a clear dispensing workflow with status tracking (pending to dispensed)");
   bullet("To develop a real-time inventory management system with automated low-stock alerts (configurable threshold, default: 20 units), expiry date tracking, and supplier information management");
   bullet("To create an automated billing system with dynamic line-item entry, automatic total calculation, and payment status tracking (paid, pending, overdue) for accurate financial management");
@@ -753,11 +751,11 @@ export const generateSystemGuidePDF = () => {
     "    pages/              Route-level page components",
     "      Dashboard.tsx     Analytics overview page",
     "      Patients.tsx      Patient CRUD management",
-    "      Appointments.tsx  Appointment scheduling",
     "      Prescriptions.tsx Prescription management",
     "      Inventory.tsx     Medicine stock management",
     "      Billing.tsx       Invoice management",
     "      Reports.tsx       Charts and analytics",
+    "      Settings.tsx      System settings and reset",
     "      SystemGuide.tsx   Documentation and PDF export",
     "      NotFound.tsx      404 error page",
     "    context/            React Context providers",
@@ -791,11 +789,11 @@ export const generateSystemGuidePDF = () => {
 
   subtitle("11.4 Component Hierarchy");
   body("The component tree follows a strict parent-child hierarchy:");
-  body("App -> QueryClientProvider -> TooltipProvider -> DataProvider -> BrowserRouter -> AppLayout -> Routes -> [Dashboard | Patients | Appointments | Prescriptions | Inventory | Billing | Reports | SystemGuide | NotFound]");
+  body("App -> QueryClientProvider -> TooltipProvider -> DataProvider -> BrowserRouter -> AppLayout -> Routes -> [Dashboard | Patients | Prescriptions | Inventory | Billing | Reports | Settings | SystemGuide | NotFound]");
   body("This hierarchy ensures that: (1) React Query is available for data fetching in any component, (2) Tooltips can be displayed anywhere in the UI, (3) Data context with CRUD operations is accessible to all page components, (4) Client-side routing is handled transparently, and (5) The sidebar layout wraps all page content consistently.");
 
   subtitle("11.5 State Management Architecture");
-  body("The application uses a centralized state management approach through the DataContext provider. This context encapsulates five independent state slices (patients, appointments, prescriptions, medicines, invoices), each managed by a dedicated useState hook with localStorage persistence.");
+  body("The application uses a centralized state management approach through the DataContext provider. This context encapsulates four independent state slices (patients, prescriptions, medicines, invoices), each managed by a dedicated useState hook with real-time Firebase synchronization.");
   body("The state update mechanism follows a functional update pattern: each CRUD operation creates a new state array (immutability principle) and persists the updated state to localStorage synchronously. This ensures that the UI and storage are always in sync, preventing data inconsistencies.");
   body("The update() higher-order function is a key architectural decision that abstracts the boilerplate of state updates + localStorage persistence into a reusable utility. This pattern reduces code duplication across all five entity types and centralizes the persistence logic in a single, testable function.");
 

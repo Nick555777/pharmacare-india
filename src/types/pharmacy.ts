@@ -11,16 +11,7 @@ export interface Patient {
   registeredAt: string;
 }
 
-export interface Appointment {
-  id: string;
-  patientId: string;
-  patientName: string;
-  doctorName: string;
-  date: string;
-  time: string;
-  status: "scheduled" | "completed" | "cancelled";
-  reason: string;
-}
+
 
 export interface PrescriptionMedicine {
   medicineId: string;
@@ -86,7 +77,7 @@ export interface Invoice {
 
 export interface DashboardStats {
   totalPatients: number;
-  todayAppointments: number;
+  totalRevenue: number;
   pendingPrescriptions: number;
   lowStockItems: number;
   monthlyRevenue: number;

@@ -1,4 +1,4 @@
-import { Users, CalendarDays, Pill, TrendingUp, AlertTriangle } from "lucide-react";
+import { Users, Package, Pill, TrendingUp, AlertTriangle } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import StatusBadge from "@/components/StatusBadge";
 import { useData } from "@/context/DataContext";
@@ -19,7 +19,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Total Patients" value={patients.length} icon={Users} variant="primary" />
-        <StatCard title="Inventory Items" value={medicines.length} icon={CalendarDays} variant="default" />
+        <StatCard title="Inventory Items" value={medicines.length} icon={Package} variant="default" />
         <StatCard title="Pending Prescriptions" value={pendingRx} icon={Pill} variant="warning" />
         <StatCard title="Total Revenue" value={`₹${totalRevenue.toLocaleString()}`} icon={TrendingUp} variant="success" />
       </div>

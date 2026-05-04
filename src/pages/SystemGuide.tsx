@@ -89,13 +89,13 @@ const SystemGuide = () => {
             <strong>PharmaCare</strong> is a comprehensive, web-based Pharmacy Management System designed and developed by <strong>Nikhil Sharma</strong>. The system provides an integrated digital platform for automating and streamlining the complete workflow of a pharmacy or healthcare clinic, replacing traditional manual record-keeping with an efficient, modern, and error-free digital solution.
           </p>
           <p>
-            The application encompasses six core functional modules: <strong>Patient Records Management</strong>, <strong>Appointment Scheduling</strong>, <strong>Digital Prescription Management</strong>, <strong>Medicine Inventory Control</strong>, <strong>Billing and Invoice Generation</strong>, and <strong>Reports and Analytics</strong>. Each module supports full Create, Read, Update, and Delete (CRUD) operations with real-time data validation and persistent storage.
+            The application encompasses five core functional modules: <strong>Patient Records Management</strong>, <strong>Digital Prescription Management</strong>, <strong>Medicine Inventory Control</strong>, <strong>Billing and Invoice Generation</strong>, and <strong>Reports and Analytics</strong>. Each module supports full Create, Read, Update, and Delete (CRUD) operations with real-time data validation and persistent storage.
           </p>
           <p>
             The system is built using a modern technology stack comprising React 18 for the user interface, TypeScript for type-safe development, Tailwind CSS for responsive styling, and Shadcn/UI for accessible component design. The application implements centralized state management using React Context API with real-time Firebase Firestore database synchronization for persistent, cross-platform data availability.
           </p>
           <p>
-            Key features include automated low-stock alerts for medicines below threshold levels, dynamic invoice generation with line-item calculations, patient search and filtering, appointment status tracking (scheduled, completed, cancelled), prescription dispensing workflow, and a complete PDF documentation export system.
+            Key features include automated low-stock alerts for medicines below threshold levels, dynamic invoice generation with real-time medicine inventory search, automatic price-quantity calculation, patient search and filtering, prescription dispensing workflow, and a complete PDF documentation export system.
           </p>
           <p>
             The project demonstrates proficiency in full-stack web development principles, component-based architecture, state management patterns, responsive UI/UX design, and software engineering best practices. The modular architecture ensures scalability and maintainability, making it suitable for deployment in small to medium-sized pharmacies and healthcare clinics.
@@ -119,7 +119,6 @@ const SystemGuide = () => {
               <li>Inventory discrepancies resulting in stockouts of essential medicines or wastage of expired stock</li>
               <li>Manual billing errors and difficulty in tracking payment statuses</li>
               <li>Absence of analytical insights for informed business decision-making</li>
-              <li>No centralized system to manage appointments efficiently</li>
             </ul>
           </div>
           <div>
@@ -130,12 +129,12 @@ const SystemGuide = () => {
             <h3 className="font-semibold mb-2 text-base">3.4 Scope of the Project</h3>
             <ol className="list-decimal list-inside space-y-1 text-muted-foreground ml-2">
               <li>Patient Registration and Records Management with search and CRUD operations</li>
-              <li>Appointment Scheduling with patient-doctor mapping and status tracking</li>
               <li>Digital Prescription Creation with medicine line-item builder and dispensing workflow</li>
               <li>Medicine Inventory Management with stock alerts, pricing, and expiry tracking</li>
-              <li>Invoice Generation with dynamic line items and automatic total calculation</li>
+              <li>Billing and Invoice Management with real-time inventory search and auto-calculation</li>
               <li>Reports and Analytics with interactive charts (bar charts, pie charts)</li>
               <li>PDF Documentation Export for project presentation</li>
+              <li>System Settings with global data reset and branding options</li>
             </ol>
           </div>
         </div>
@@ -149,10 +148,10 @@ const SystemGuide = () => {
             <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-2">
               <li>To design and develop a fully functional web-based Pharmacy Management System that automates daily pharmacy and clinic operations, reducing manual effort and minimizing errors</li>
               <li>To create a centralized digital platform for managing patient records with complete CRUD functionality, replacing paper-based systems</li>
-              <li>To implement an appointment scheduling module that improves patient flow management and reduces wait times through organized scheduling</li>
               <li>To build a digital prescription management system that eliminates medication errors and provides a clear dispensing workflow</li>
               <li>To develop a real-time inventory management system with automated low-stock alerts (threshold: 20 units) and expiry date tracking</li>
-              <li>To create an automated billing system with dynamic line-item entry and automatic total calculation for accurate financial tracking</li>
+              <li>To create an automated billing system with integrated medicine search and automatic total calculation for accurate financial tracking</li>
+              <li>To provide a secure data reset mechanism for clearing system-wide records and starting with fresh inventory</li>
             </ul>
           </div>
           <div>
@@ -314,7 +313,7 @@ const SystemGuide = () => {
           <div>
             <h3 className="font-semibold mb-2">7.3 Component Hierarchy</h3>
             <div className="bg-muted rounded-lg p-4 text-xs font-mono">
-              App → QueryClientProvider → TooltipProvider → DataProvider → BrowserRouter → AppLayout → Routes → [Dashboard | Patients | Appointments | Prescriptions | Inventory | Billing | Reports | SystemGuide]
+              App → QueryClientProvider → TooltipProvider → DataProvider → BrowserRouter → AppLayout → Routes → [Dashboard | Patients | Prescriptions | Inventory | Billing | Reports | Settings | SystemGuide]
             </div>
           </div>
         </div>
@@ -381,7 +380,6 @@ const SystemGuide = () => {
 
         <h3 className="text-sm font-semibold mt-4 mb-2">Entity Relationships</h3>
         <div className="bg-muted rounded-lg p-4 text-xs font-mono space-y-1">
-          <p>Patients 1──→ N Appointments</p>
           <p>Patients 1──→ N Prescriptions</p>
           <p>Prescriptions 1──→ N Prescription_Items ←──N Medicines</p>
           <p>Patients 1──→ N Invoices</p>
@@ -393,13 +391,13 @@ const SystemGuide = () => {
       <Section id="module-description" title="9. Module Description">
         <div className="space-y-4 text-sm">
           {[
-            { title: "9.1 Dashboard Module", icon: <BarChart3 className="w-4 h-4 text-primary" />, desc: "The Dashboard serves as the landing page and provides a comprehensive overview of the system's current state. It displays four StatCard components showing: Total Patients count, Upcoming Appointments (filtered by 'scheduled' status), Pending Prescriptions count, and Total Revenue (sum of paid invoices). Below the statistics, it renders two data panels: an Upcoming Appointments table and a Low Stock Alerts section highlighting medicines with stock below 20 units." },
-            { title: "9.2 Patient Records Module", icon: <User className="w-4 h-4 text-primary" />, desc: "This module provides complete CRUD operations for patient management. Features include: a searchable patient table with columns for ID, Name, Age, Gender, Phone, Blood Group, and Registration Date; an 'Add Patient' dialog with form fields for all patient attributes; an 'Edit Patient' dialog pre-populated with existing data; and a delete confirmation dialog." },
-            { title: "9.3 Appointment Scheduling Module", desc: "The Appointment module enables scheduling and tracking of patient-doctor appointments. It features: patient selection from the registered patients list, doctor selection, date and time picker inputs, reason for visit field, and status management (scheduled/completed/cancelled)." },
-            { title: "9.4 Prescription Management Module", desc: "This module handles digital prescription creation with a medicine line-item builder. Users can: select a patient and doctor, add multiple medicines with dosage instructions and quantities from the inventory, and track dispensing status (pending/dispensed)." },
-            { title: "9.5 Inventory Management Module", desc: "The Inventory module tracks all medicines in stock with: medicine name, category, current stock quantity, unit price, supplier information, and expiry date. Visual alerts automatically appear for medicines with stock below 20 units." },
-            { title: "9.6 Billing and Invoice Module", desc: "Generates invoices dynamically with a line-item builder. Features include: patient mapping, deep payload sanitization to prevent database crashes, real-time recalculation, and a proprietary dynamic CSS Printing engine that strips UI elements to generate stunning PDF receipts directly from the browser natively." },
-            { title: "9.7 Reports and Analytics Module", desc: "The Reports module provides interactive data visualizations using the Recharts library. It displays: a Bar Chart showing revenue trends across months, a Pie Chart showing the distribution of invoice and appointment statuses, and summary cards." },
+            { title: "9.1 Dashboard Module", icon: <BarChart3 className="w-4 h-4 text-primary" />, desc: "The Dashboard serves as the landing page and provides a comprehensive overview of the system's current state. It displays key stats: Total Patients, Inventory Items count, Pending Prescriptions, and Total Revenue. It also features a Recent Activity feed and Low Stock Alerts section highlighting medicines with stock below 20 units." },
+            { title: "9.2 Patient Records Module", icon: <User className="w-4 h-4 text-primary" />, desc: "This module provides complete CRUD operations for patient management. Features include: a searchable patient table with columns for ID, Name, Age, Gender, Phone, Blood Group, and Registration Date; an 'Add Patient' dialog with form fields for all patient attributes; and an 'Edit Patient' dialog." },
+            { title: "9.3 Prescription Management Module", desc: "This module handles digital prescription creation with a medicine line-item builder. Users can: select a patient and doctor, add multiple medicines with dosage instructions and quantities from the inventory, and track dispensing status (pending/dispensed)." },
+            { title: "9.4 Inventory Management Module", desc: "The Inventory module tracks all medicines in stock with: medicine name, category, current stock quantity, unit price, supplier information, and expiry date. Visual alerts automatically appear for medicines with stock below 20 units." },
+            { title: "9.5 Billing and Invoice Module", desc: "Generates invoices dynamically with a built-in medicine search engine that pulls directly from the inventory. It features automatic price-quantity calculation, patient mapping, and a proprietary printing engine for high-quality PDF receipts." },
+            { title: "9.6 Reports and Analytics Module", desc: "The Reports module provides interactive data visualizations using the Recharts library. It displays: a Bar Chart showing revenue trends across months, a Pie Chart showing the distribution of invoice and prescription statuses, and summary cards." },
+            { title: "9.7 System Settings Module", icon: <Settings className="w-4 h-4 text-primary" />, desc: "Allows administrators to update clinic branding (system name) and manage doctor personnel. It also includes a 'Danger Zone' for performing a complete system data reset, clearing all records to start fresh." },
           ].map((mod) => (
             <div key={mod.title} className="bg-card rounded-lg border p-4">
               <h3 className="font-semibold text-base mb-2 flex items-center gap-2">{mod.icon}{mod.title}</h3>
@@ -424,14 +422,12 @@ const SystemGuide = () => {
             <tbody className="divide-y divide-border">
               {[
                 ["1", "Patient Registration", "Patients", "New patient registered with personal and medical details"],
-                ["2", "Appointment Booking", "Appointments", "Appointment scheduled with available doctor"],
-                ["3", "Consultation", "Appointments", "Doctor consultation completed, status updated"],
-                ["4", "Prescription Issued", "Prescriptions", "Doctor creates prescription with medicines and dosage"],
-                ["5", "Medicine Dispensed", "Prescriptions", "Pharmacist dispenses medicines, status changed"],
-                ["6", "Stock Updated", "Inventory", "Medicine stock levels updated after dispensing"],
-                ["7", "Invoice Generated", "Billing", "Invoice created with consultation fees and medicine costs"],
-                ["8", "Payment Processed", "Billing", "Patient makes payment, invoice status updated"],
-                ["9", "Reports Reviewed", "Reports", "Admin reviews revenue trends and analytics"],
+                ["2", "Prescription Issued", "Prescriptions", "Doctor creates prescription with medicines and dosage"],
+                ["3", "Medicine Dispensed", "Prescriptions", "Pharmacist dispenses medicines, status changed"],
+                ["4", "Stock Updated", "Inventory", "Medicine stock levels updated after dispensing"],
+                ["5", "Invoice Generated", "Billing", "Invoice created with integrated medicine search and auto-pricing"],
+                ["6", "Payment Processed", "Billing", "Patient makes payment, invoice status updated"],
+                ["7", "Reports Reviewed", "Reports", "Admin reviews revenue trends and analytics"],
               ].map(([step, action, module, desc]) => (
                 <tr key={step}>
                   <td className="p-2 font-bold text-primary">{step}</td>
@@ -483,8 +479,6 @@ npm run preview`}</Code>
                 ["POST", "/api/auth/login", "User login", "Public"],
                 ["GET", "/api/patients", "List all patients", "Auth"],
                 ["POST", "/api/patients", "Create patient", "Receptionist+"],
-                ["GET", "/api/appointments", "List appointments", "Auth"],
-                ["POST", "/api/appointments", "Schedule appointment", "Receptionist+"],
                 ["GET", "/api/prescriptions", "List prescriptions", "Doctor+"],
                 ["POST", "/api/prescriptions", "Create prescription", "Doctor"],
                 ["GET", "/api/medicines", "List inventory", "Auth"],
@@ -554,9 +548,9 @@ const PatientList = () => {
             <tbody className="divide-y divide-border">
               {[
                 ["Admin", "Full access to all modules, user management, system settings"],
-                ["Doctor", "View patients, create/manage prescriptions, manage own appointments"],
+                ["Doctor", "View patients, create/manage prescriptions, patient medical history"],
                 ["Pharmacist", "Manage inventory, dispense prescriptions, view medicine stock"],
-                ["Receptionist", "Register patients, schedule appointments, generate invoices"],
+                ["Receptionist", "Register patients, manage billing, generate invoices"],
               ].map(([role, perm]) => (
                 <tr key={role}>
                   <td className="p-2 font-medium">{role}</td>
@@ -584,10 +578,9 @@ const PatientList = () => {
                 {[
                   ["Add new patient with valid data", "Patients", "Patient added, success toast shown"],
                   ["Search patient by name", "Patients", "Table filters to matching results"],
-                  ["Schedule appointment", "Appointments", "Appointment appears with 'scheduled' status"],
                   ["Create prescription with medicines", "Prescriptions", "Prescription created with medicine items"],
                   ["Add medicine with low stock", "Inventory", "Warning icon displayed next to stock count"],
-                  ["Generate invoice with line items", "Billing", "Invoice created with auto-calculated total"],
+                  ["Generate invoice with integrated search", "Billing", "Invoice created with auto-calculated prices"],
                   ["Delete record with confirmation", "All modules", "Confirmation dialog shown, record removed"],
                   ["View revenue chart", "Reports", "Bar chart renders with monthly data"],
                 ].map(([tc, mod, exp]) => (
@@ -616,13 +609,13 @@ const PatientList = () => {
             { file: "src/components/AppLayout.tsx", desc: "Sidebar navigation layout with active route highlighting" },
             { file: "src/components/StatCard.tsx", desc: "Dashboard statistics card with configurable color variants" },
             { file: "src/components/StatusBadge.tsx", desc: "Color-coded status badge for entity statuses" },
-            { file: "src/pages/Dashboard.tsx", desc: "Analytics overview with stats, appointments table, low-stock alerts" },
+            { file: "src/pages/Dashboard.tsx", desc: "Analytics overview with stats, activity feed, and low-stock alerts" },
             { file: "src/pages/Patients.tsx", desc: "Full CRUD patient management with search and dialogs" },
-            { file: "src/pages/Appointments.tsx", desc: "Appointment scheduling with status tracking" },
             { file: "src/pages/Prescriptions.tsx", desc: "Prescription creation with medicine line-item builder" },
             { file: "src/pages/Inventory.tsx", desc: "Medicine inventory management with stock alerts" },
-            { file: "src/pages/Billing.tsx", desc: "Invoice generation with dynamic line items" },
+            { file: "src/pages/Billing.tsx", desc: "Enhanced invoice generation with medicine search and auto-pricing" },
             { file: "src/pages/Reports.tsx", desc: "Interactive charts and analytics dashboards" },
+            { file: "src/pages/Settings.tsx", desc: "Clinic branding and system-wide data reset" },
           ].map((f) => (
             <div key={f.file} className="flex gap-3 p-3 rounded-lg border bg-card">
               <Code2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
@@ -669,7 +662,7 @@ const PatientList = () => {
       <Section id="conclusion" title="19. Conclusion">
         <div className="space-y-3 text-sm leading-relaxed text-foreground">
           <p>The PharmaCare Management System successfully demonstrates the design and development of a comprehensive, web-based application that addresses the real-world operational challenges faced by pharmacies and healthcare clinics.</p>
-          <p>The system provides an integrated digital solution covering six core functional modules with full CRUD operations, data validation, persistent storage, and user-friendly interfaces.</p>
+          <p>The system provides an integrated digital solution covering five core functional modules with full CRUD operations, data validation, persistent storage, and user-friendly interfaces.</p>
           <p>The modular architecture ensures easy extension with features such as user authentication, cloud database integration, and mobile application support. The clean separation of concerns makes the codebase maintainable and scalable.</p>
         </div>
         <div className="mt-6 bg-primary/5 rounded-xl border border-primary/20 p-6 text-center">

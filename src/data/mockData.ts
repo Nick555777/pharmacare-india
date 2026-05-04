@@ -1,4 +1,4 @@
-import { Patient, Appointment, Prescription, Medicine, Invoice, DashboardStats } from "@/types/pharmacy";
+import { Patient, Prescription, Medicine, Invoice, DashboardStats } from "@/types/pharmacy";
 
 export const mockPatients: Patient[] = [
   { id: "P001", name: "Sarah Johnson", age: 34, gender: "Female", phone: "9876543210", email: "sarah@email.com", address: "123 Mumbai St", bloodGroup: "A+", registeredAt: "2024-01-15" },
@@ -8,13 +8,7 @@ export const mockPatients: Patient[] = [
   { id: "P005", name: "Maria Garcia", age: 51, gender: "Female", phone: "9876543214", email: "maria@email.com", address: "654 Hyderabad Ln", bloodGroup: "O-", registeredAt: "2024-03-15" },
 ];
 
-export const mockAppointments: Appointment[] = [
-  { id: "A001", patientId: "P001", patientName: "Sarah Johnson", doctorName: "Dr. Smith", date: "2024-03-20", time: "09:00", status: "completed", reason: "Regular checkup" },
-  { id: "A002", patientId: "P002", patientName: "Michael Chen", doctorName: "Dr. Patel", date: "2024-03-20", time: "10:30", status: "completed", reason: "Blood pressure follow-up" },
-  { id: "A003", patientId: "P003", patientName: "Emily Davis", doctorName: "Dr. Smith", date: "2024-03-21", time: "14:00", status: "scheduled", reason: "Skin rash consultation" },
-  { id: "A004", patientId: "P004", patientName: "James Wilson", doctorName: "Dr. Lee", date: "2024-03-21", time: "11:00", status: "scheduled", reason: "Diabetes management" },
-  { id: "A005", patientId: "P005", patientName: "Maria Garcia", doctorName: "Dr. Patel", date: "2024-03-22", time: "09:30", status: "scheduled", reason: "Joint pain" },
-];
+
 
 export const mockMedicines: Medicine[] = [
   { id: "M001", name: "Amoxicillin 500mg", category: "Antibiotic", stock: 245, price: 120, supplier: "PharmaCo", expiryDate: "2025-06-15", type: "Tablet", quantityPerStrip: 10 },
@@ -38,7 +32,7 @@ export const mockInvoices: Invoice[] = [
 
 export const mockDashboardStats: DashboardStats = {
   totalPatients: 1247,
-  todayAppointments: 18,
+  totalRevenue: 852000,
   pendingPrescriptions: 7,
   lowStockItems: 3,
   monthlyRevenue: 452800,
