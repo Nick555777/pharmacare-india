@@ -2427,11 +2427,138 @@ export const mockInvoices: Invoice[] = [
 
 export const mockDashboardStats: DashboardStats = {
   totalPatients: 1247,
-  todayAppointments: 18,
+  totalRevenue: 852000,
   pendingPrescriptions: 7,
   lowStockItems: 3,
   monthlyRevenue: 45280,
   revenueChange: 12.5,
 };`),
+  },
+  {
+    title: "System Settings (src/pages/Settings.tsx)",
+    description: "Manage clinic branding, personnel, and system-wide data reset functionality with Firebase synchronization.",
+    code: toLines(`import { useData } from "@/context/DataContext";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Settings as SettingsIcon, Plus, Trash2, UserCog, Building2, Save, Pencil } from "lucide-react";
+import { useState, useEffect } from "react";
+import { toast } from "@/hooks/use-toast";
+
+const Settings = () => {
+  const { doctors, addDoctor, updateDoctor, deleteDoctor, clinicName, updateClinicName, clearAllData } = useData();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingDoctor, setEditingDoctor] = useState<any>(null);
+  const [newDoctor, setNewDoctor] = useState({ name: "", specialty: "" });
+  const [tempClinicName, setTempClinicName] = useState(clinicName);
+
+  useEffect(() => {
+    setTempClinicName(clinicName);
+  }, [clinicName]);
+
+  const handleSaveClinicName = async () => {
+    await updateClinicName(tempClinicName);
+    toast({ title: "Branding updated" });
+  };
+
+  const handleSaveDoctor = async () => {
+    if (!newDoctor.name.trim()) return;
+    if (editingDoctor) {
+      await updateDoctor(editingDoctor.id, newDoctor);
+      toast({ title: "Doctor updated" });
+    } else {
+      await addDoctor(newDoctor);
+      toast({ title: "Doctor added" });
+    }
+    setDialogOpen(false);
+  };
+
+  return (
+    <div className="space-y-8 animate-fade-in">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <SettingsIcon className="w-6 h-6 text-primary" /> System Settings
+          </h1>
+          <p className="text-muted-foreground text-sm mt-1">Manage system configurations</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1 space-y-6">
+          <div className="bg-card rounded-xl border p-6 space-y-6">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <Building2 className="w-5 h-5 text-primary" /> Clinic Branding
+            </h2>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>System Display Name</Label>
+                <Input value={tempClinicName} onChange={(e) => setTempClinicName(e.target.value)} />
+              </div>
+              <Button onClick={handleSaveClinicName} className="w-full gap-2">
+                <Save className="w-4 h-4" /> Save Name
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:col-span-2 bg-card rounded-xl border p-6 space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <UserCog className="w-5 h-5 text-primary" /> Doctor Management
+            </h2>
+            <Button onClick={() => setDialogOpen(true)} variant="outline" size="sm">
+              <Plus className="w-4 h-4" /> Add Doctor
+            </Button>
+          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Doctor Name</TableHead>
+                <TableHead>Specialty</TableHead>
+                <TableHead className="w-24">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {doctors.map((doc) => (
+                <TableRow key={doc.id}>
+                  <TableCell className="font-medium">{doc.name}</TableCell>
+                  <TableCell>{doc.specialty}</TableCell>
+                  <TableCell>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="icon" onClick={() => { setEditingDoctor(doc); setNewDoctor(doc); setDialogOpen(true); }}>
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="text-destructive" onClick={() => deleteDoctor(doc.id)} disabled={doctors.length <= 1}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="lg:col-span-3 bg-destructive/5 rounded-xl border border-destructive/20 p-6 space-y-6">
+          <h2 className="text-lg font-semibold text-destructive">Danger Zone</h2>
+          <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-destructive/10">
+            <div>
+              <p className="font-bold">Clear All System Data</p>
+              <p className="text-xs text-muted-foreground">Irreversible action.</p>
+            </div>
+            <Button variant="destructive" onClick={() => { if (window.confirm("Confirm reset?")) clearAllData(); }}>
+              Reset Data
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Settings;`),
   },
 ];

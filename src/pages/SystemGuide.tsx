@@ -108,7 +108,7 @@ const SystemGuide = () => {
         <div className="space-y-4 text-sm leading-relaxed text-foreground">
           <div>
             <h3 className="font-semibold mb-2 text-base">3.1 Background</h3>
-            <p>In the contemporary healthcare landscape, efficient management of pharmacy and clinical operations is paramount for delivering quality patient care. Pharmacies handle an enormous volume of daily transactions including patient registrations, appointment scheduling, prescription processing, inventory management, and billing. Traditional manual systems involving paper records, handwritten prescriptions, and physical inventory logs are inherently prone to human errors, time-consuming, and difficult to scale.</p>
+            <p>In the contemporary healthcare landscape, efficient management of pharmacy and clinical operations is paramount for delivering quality patient care. Pharmacies handle an enormous volume of daily transactions including patient registrations, prescription processing, inventory management, and billing. Traditional manual systems involving paper records, handwritten prescriptions, and physical inventory logs are inherently prone to human errors, time-consuming, and difficult to scale.</p>
           </div>
           <div>
             <h3 className="font-semibold mb-2 text-base">3.2 Problem Statement</h3>
@@ -290,11 +290,11 @@ const SystemGuide = () => {
 │   ├── pages/              # Route-level page components
 │   │   ├── Dashboard.tsx   # Analytics overview page
 │   │   ├── Patients.tsx    # Patient CRUD management
-│   │   ├── Appointments.tsx# Appointment scheduling
 │   │   ├── Prescriptions.tsx# Prescription management
 │   │   ├── Inventory.tsx   # Medicine stock management
 │   │   ├── Billing.tsx     # Invoice management
 │   │   ├── Reports.tsx     # Charts and analytics
+│   │   ├── Settings.tsx    # System settings page
 │   │   └── SystemGuide.tsx # Documentation export page
 │   ├── context/            # React Context providers
 │   ├── types/              # TypeScript type definitions
@@ -603,7 +603,7 @@ const PatientList = () => {
         </p>
         <div className="space-y-2">
           {[
-            { file: "src/types/pharmacy.ts", desc: "TypeScript interfaces for Patient, Appointment, Prescription, Medicine, Invoice" },
+            { file: "src/types/pharmacy.ts", desc: "TypeScript interfaces for Patient, Prescription, Medicine, Invoice" },
             { file: "src/context/DataContext.tsx", desc: "Centralized state management with CRUD operations and localStorage persistence" },
             { file: "src/App.tsx", desc: "Root component with routing, providers, and layout configuration" },
             { file: "src/components/AppLayout.tsx", desc: "Sidebar navigation layout with active route highlighting" },
